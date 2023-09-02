@@ -1,0 +1,63 @@
+class Task:
+    def __init__(self, title, description, completed=False):
+        self.title = title
+        self.description = description
+        self.completed = completed
+
+class ProjectManager:
+    def __init__(self):
+        self.tasks = []
+
+    def add_task(self, title, description):
+        task = Task(title, description)
+        self.tasks.append(task)
+        print(f"Task '{title}' added to the project.")
+
+    def list_tasks(self):
+        if not self.tasks:
+            print("No tasks in the project.")
+        else:
+            print("Tasks in the project:")
+            for index, task in enumerate(self.tasks, start=1):
+                status = "Completed" if task.completed else "Incomplete"
+                print(f"{index}. {task.title} - {status}")
+
+    def mark_task_completed(self, task_index):
+        try:
+            task_index = int(task_index)
+            if 1 <= task_index <= len(self.tasks):
+                task = self.tasks[task_index - 1]
+                task.completed = True
+                print(f"Task '{task.title}' marked as completed.")
+            else:
+                print("Invalid task index.")
+        except ValueError:
+            print("Invalid task index.")
+
+    def start(self):
+        while True:
+            print("\nProject Management Tool")
+            print("1. Add Task")
+            print("2. List Tasks")
+            print("3. Mark Task as Completed")
+            print("4. Exit")
+            choice = input("Select an option: ")
+
+            if choice == "1":
+                title = input("Enter task title: ")
+                description = input("Enter task description: ")
+                self.add_task(title, description)
+            elif choice == "2":
+                self.list_tasks()
+            elif choice == "3":
+                task_index = input("Enter task index to mark as completed: ")
+                self.mark_task_completed(task_index)
+            elif choice == "4":
+                print("Exiting Project Management Tool. Goodbye!")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    project_manager = ProjectManager()
+    project_manager.start()
